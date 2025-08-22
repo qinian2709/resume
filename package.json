@@ -1,0 +1,12 @@
+{
+  "name": "resume",
+  "version": "0.0.1",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["resume", "markdown", "html", "static"],
+  "author": "",
+  "license": "ISC",
+  "description": "个人简历项目 - 纯静态页面，支持Markdown到HTML的自动转换"
+}

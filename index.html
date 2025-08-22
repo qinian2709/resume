@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人简历</title>
+    <!-- 引入marked库 -->
+    <script src="https://unpkg.com/marked@4.3.0/marked.min.js"></script>
+    <!-- 引入html2pdf库 -->
+    <script src="https://unpkg.com/html2pdf.js@0.10.1/dist/html2pdf.bundle.min.js"></script>
+    <!-- 引入jsPDF库作为备选 -->
+    <script src="https://unpkg.com/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #1e293b;
+            background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
+            min-height: 100vh;
+            padding: 16px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .action-buttons {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 12px;
+            z-index: 10;
+        }
+        
+        .action-btn {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            color: #3b82f6;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .action-btn:hover {
+            background: rgba(59, 130, 246, 0.2);
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2);
+        }
+        
+        .action-btn:active {
+            transform: translateY(0);
+        }
+        
+        .action-btn svg {
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
+        }
+        
+        .content {
+            padding: 45px 35px;
+        }
+        
+        /* Markdown样式优化 */
+        .markdown-content h1 {
+            font-size: 1.8em;
+            color: #0f172a;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        
+        .markdown-content h2 {
+            font-size: 1.4em;
+            color: #1e40af;
+            margin-top: 35px;
+            margin-bottom: 20px;
+            font-weight: 600;
+            position: relative;
+            padding-bottom: 8px;
+        }
+        
+        .markdown-content h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background: #3b82f6;
+            border-radius: 1px;
+        }
+        
+        .markdown-content h3 {
+            font-size: 1.1em;
+            color: #334155;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        /* 基本信息模块 - 使用卡片样式 */
+        .markdown-content h2:first-of-type + ul {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+            margin: 20px 0;
+        }
+        
+        .markdown-content h2:first-of-type + ul li {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            padding: 18px;
+            border-radius: 8px;
+            border-left: 3px solid #3b82f6;
+            margin-bottom: 0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            transition: all 0.2s ease;
+            list-style: none !important;
+        }
+        
+        .markdown-content h2:first-of-type + ul li:hover {
+            background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
+            transform: translateY(-1px);
+        }
+        
+        .markdown-content h2:first-of-type + ul li::before {
+            display: none !important;
+            content: none !important;
+        }
+        
+        .markdown-content h2:first-of-type + ul li strong {
+            display: block;
+            margin-bottom: 5px;
+            color: #1e40af;
+        }
+        
+        /* 所有其他模块 - 使用正常列表样式 */
+        .markdown-content ul:not(.markdown-content h2:first-of-type + ul) {
+            list-style: none;
+            padding-left: 0;
+            margin: 15px 0;
+        }
+        
+        .markdown-content ul:not(.markdown-content h2:first-of-type + ul) li {
+            margin-bottom: 8px;
+            position: relative;
+            padding-left: 20px;
+            line-height: 1.6;
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+            padding: 0 0 0 20px !important;
+        }
+        
+        .markdown-content ul:not(.markdown-content h2:first-of-type + ul) li::before {
+            content: "•";
+            color: #3b82f6;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+        
+        /* 确保嵌套列表也能正确显示 */
+        .markdown-content ul ul {
+            list-style: none;
+            padding-left: 0;
+            margin: 8px 0;
+        }
+        
+        .markdown-content ul ul li {
+            margin-bottom: 6px;
+            position: relative;
+            padding-left: 20px;
+            line-height: 1.5;
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+            padding: 0 0 0 20px !important;
+        }
+        
+        .markdown-content ul ul li::before {
+            content: "•";
+            color: #3b82f6;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+        
+        .markdown-content strong {
+            color: #0f172a;
+            font-weight: 600;
+        }
+        
+        .markdown-content p {
+            margin-bottom: 15px;
+            line-height: 1.7;
+            color: #334155;
+        }
+        
+        .markdown-content hr {
+            border: none;
+            border-top: 1px solid #cbd5e1;
+            margin: 30px 0;
+        }
+        
+        /* 响应式设计优化 */
+        @media (max-width: 1000px) {
+            .container {
+                max-width: 95%;
+            }
+            
+            .markdown-content h2:first-of-type + ul {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            }
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 12px;
+            }
+            
+            .container {
+                border-radius: 8px;
+                max-width: 100%;
+            }
+            
+            .action-buttons {
+                top: 15px;
+                right: 15px;
+                gap: 8px;
+            }
+            
+            .action-btn {
+                padding: 6px 10px;
+                font-size: 13px;
+            }
+            
+            .content {
+                padding: 35px 25px;
+            }
+            
+            .markdown-content h1 {
+                font-size: 1.6em;
+            }
+            
+            .markdown-content h2 {
+                font-size: 1.3em;
+            }
+            
+            .markdown-content h2:first-of-type + ul {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            
+            .markdown-content h2:first-of-type + ul li {
+                padding: 16px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            body {
+                padding: 8px;
+            }
+            
+            .container {
+                border-radius: 6px;
+            }
+            
+            .content {
+                padding: 25px 20px;
+            }
+            
+            .action-buttons {
+                top: 10px;
+                right: 10px;
+                gap: 6px;
+            }
+            
+            .action-btn {
+                padding: 5px 8px;
+                font-size: 12px;
+            }
+            
+            .markdown-content h1 {
+                font-size: 1.5em;
+            }
+            
+            .markdown-content h2 {
+                font-size: 1.2em;
+            }
+            
+            .markdown-content h2:first-of-type + ul {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            
+            .markdown-content h2:first-of-type + ul li {
+                padding: 14px;
+            }
+        }
+        
+        /* 加载状态 */
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #3b82f6;
+        }
+        
+        .loading::after {
+            content: '';
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #93c5fd;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 1s linear infinite;
+            margin-left: 10px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* 打印样式优化 */
+        @media print {
+            body {
+                background: white !important;
+                padding: 0 !important;
+            }
+            
+            .container {
+                box-shadow: none !important;
+                border-radius: 0 !important;
+                max-width: 100% !important;
+            }
+            
+            .action-buttons {
+                display: none !important;
+            }
+            
+            .content {
+                padding: 20px !important;
+            }
+            
+            .markdown-content h2:first-of-type + ul {
+                grid-template-columns: 1fr !important;
+                gap: 10px !important;
+            }
+            
+            .markdown-content h2:first-of-type + ul li {
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="action-buttons">
+            <button class="action-btn" onclick="refreshContent()" title="刷新内容">
+                <svg viewBox="0 0 24 24">
+                    <path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/>
+                </svg>
+                刷新
+            </button>
+            <button class="action-btn" onclick="exportToPDF()" title="导出PDF">
+                <svg viewBox="0 0 24 24">
+                    <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+                </svg>
+                下载
+            </button>
+        </div>
+        
+        <div class="content">
+            <div class="markdown-content" id="resume-content">
+                <div class="loading">正在加载简历内容...</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 配置marked选项
+        marked.setOptions({
+            breaks: true,  // 支持换行
+            gfm: true,     // 支持GitHub风格的Markdown
+            sanitize: false // 允许HTML标签
+        });
+
+        // 从外部markdown文件加载内容
+        async function loadMarkdownFromFile() {
+            try {
+                const response = await fetch('resume.md');
+                
+                if (response.ok) {
+                    const content = await response.text();
+                    renderResume(content);
+                } else {
+                    showResumeNotFound();
+                }
+            } catch (error) {
+                console.error('加载resume.md文件失败:', error);
+                showResumeNotFound();
+            }
+        }
+
+        // 显示简历不存在错误
+        function showResumeNotFound() {
+            document.getElementById('resume-content').innerHTML = `
+                <div style="text-align: center; padding: 60px 20px; color: #6b7280;">
+                    <svg style="width: 64px; height: 64px; margin: 0 auto 20px; color: #d1d5db;" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                    </svg>
+                    <h2 style="margin-bottom: 16px; color: #374151;">简历不存在</h2>
+                    <p style="margin-bottom: 8px; line-height: 1.6;">无法找到 resume.md 文件</p>
+                    <p style="margin-bottom: 24px; line-height: 1.6; color: #9ca3af;">请确保文件存在于同一目录下</p>
+                    <button onclick="loadMarkdownFromFile()" style="
+                        background: #3b82f6; color: white; border: none; padding: 12px 24px; 
+                        border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 500;
+                        transition: background-color 0.2s;
+                    " onmouseover="this.style.background='#2563eb'" onmouseout="this.style.background='#3b82f6'">
+                        重新加载
+                    </button>
+                </div>
+            `;
+        }
+
+        // 渲染简历内容
+        function renderResume(markdownContent) {
+            try {
+                const html = marked.parse(markdownContent);
+                document.getElementById('resume-content').innerHTML = html;
+                console.log('简历内容已成功渲染到页面');
+            } catch (error) {
+                console.error('解析markdown时出错:', error);
+                document.getElementById('resume-content').innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: #ef4444;">
+                        <h2>加载错误</h2>
+                        <p>解析简历内容时出错: ${error.message}</p>
+                        <button onclick="loadMarkdownFromFile()" style="
+                            background: #3b82f6; color: white; border: none; padding: 10px 20px; 
+                            border-radius: 6px; cursor: pointer; margin-top: 20px;
+                        ">重新加载</button>
+                    </div>
+                `;
+            }
+        }
+
+        // 刷新内容
+        function refreshContent() {
+            document.getElementById('resume-content').innerHTML = '';
+            loadMarkdownFromFile();
+        }
+
+        // 导出PDF
+        function exportToPDF() {
+            const element = document.getElementById('resume-content');
+            const opt = {
+                margin: 1,
+                filename: '个人简历.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+            };
+
+            html2pdf().set(opt).from(element).save();
+        }
+
+        // 页面加载完成后执行
+        document.addEventListener('DOMContentLoaded', function() {
+            // 尝试从外部文件加载内容
+            loadMarkdownFromFile();
+        });
+    </script>
+</body>
+</html>
