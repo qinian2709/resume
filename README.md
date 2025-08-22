@@ -1,7 +1,14 @@
 # 个人简历展示系统
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-1.0.0-green.svg)]()
+[![Version](https://img.shields.io/badge/version-0.0.1-green.svg)]()
+
+## 🌐 查看其他语言版本 / View Other Language Versions
+
+- **中文版**: [README.md](README.md) (当前文档)
+- **English**: [README_EN.md](README_EN.md)
+
+---
 
 ## 📖 项目简介
 
@@ -139,7 +146,6 @@ function customFunction() {
 | Safari | 12+ | ✅ 完全支持 |
 | Edge | 79+ | ✅ 完全支持 |
 
-
 ## 📄 许可证
 
 本项目采用 MIT 许可证 - 查看 [LICENSE](LICENSE) 文件了解详情。
@@ -148,6 +154,7 @@ function customFunction() {
 
 - [marked.js](https://marked.js.org/) - Markdown解析器
 - [html2pdf.js](https://github.com/eKoopmans/html2pdf.js) - PDF导出库
+
 ---
 
 ⭐ 如果这个项目对你有帮助，请给它一个星标！

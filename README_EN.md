@@ -1,7 +1,14 @@
 # Personal Resume Display System
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-1.0.0-green.svg)]()
+[![Version](https://img.shields.io/badge/version-0.0.1-green.svg)]()
+
+## 🌐 View Other Language Versions / 查看其他语言版本
+
+- **English**: [README_EN.md](README_EN.md) (Current Document)
+- **中文版**: [README.md](README.md)
+
+---
 
 ## 📖 Project Description
 
