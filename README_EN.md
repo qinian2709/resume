@@ -137,15 +137,6 @@ function customFunction() {
 - **Tablet**: 768px - 1000px  
 - **Mobile**: < 768px
 
-## 🔧 Browser Support
-
-| Browser | Version Required | Support Status |
-|---------|------------------|----------------|
-| Chrome | 60+ | ✅ Fully Supported |
-| Firefox | 55+ | ✅ Fully Supported |
-| Safari | 12+ | ✅ Fully Supported |
-| Edge | 79+ | ✅ Fully Supported |
-
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
