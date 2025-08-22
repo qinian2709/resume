@@ -1,103 +1,153 @@
-# 个人简历项目
+# 个人简历展示系统
 
-这是一个支持Markdown到HTML自动转换的个人简历项目，**纯静态页面，无需启动服务器**。
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Version](https://img.shields.io/badge/version-1.0.0-green.svg)]()
 
-## 功能特点
+## 📖 项目简介
 
-- 📝 支持Markdown格式的简历编写
-- 🎨 现代化的响应式HTML界面
-- 🔄 自动将Markdown内容转换为HTML
-- 📱 支持移动端和桌面端
-- 🚀 纯静态页面，可直接在浏览器中打开
-- ✏️ 修改resume.md文件即可更新简历
-- 🔄 支持实时同步，修改后刷新页面即可看到更新
-- 📚 使用成熟的marked库，确保markdown解析的准确性
+一个基于HTML5的静态个人简历展示系统，支持Markdown格式内容，具备自动将中文内容翻译为英文。无需服务器，可直接在浏览器中运行。
 
-## 文件结构
+## ✨ 主要功能
 
+### 🌐 多语言支持
+- **中文版**: 默认显示中文简历内容
+- **英文版**: 自动翻译为英文版本
+- **URL参数控制**: 通过 `?lang=en` 切换语言
+
+### 📝 Markdown支持
+- 使用 `marked.js` 解析Markdown语法
+- 支持标题、列表、粗体、链接等格式
+- 自动渲染为美观的HTML页面
+
+### 🎨 响应式设计
+- 适配桌面、平板、手机等设备
+- 现代化UI设计，简洁美观
+- 支持深色/浅色主题
+
+### ⚡ 静态部署
+- 纯前端实现，无需后端服务
+- 支持GitHub Pages、Vercel等平台
+- 快速加载，性能优异
+
+## 🚀 快速开始
+
+### 1. 克隆项目
+```bash
+git clone https://github.com/yourusername/resume-display.git
+cd resume-display
 ```
-resume/
-├── resume.md          # 简历内容（Markdown格式）
-├── index.html         # 主页面（包含解析器和样式）
-├── package.json       # 项目配置
-└── README.md          # 项目说明
-```
-
-## 使用方法
-
-### 1. 直接打开页面
-
-直接在浏览器中打开 `index.html` 文件即可查看简历。
 
 ### 2. 编辑简历内容
+修改 `resume.md` 文件，使用Markdown语法编写你的简历：
 
-**推荐方式**: 修改 `resume.md` 文件中的内容，然后刷新浏览器页面即可看到更新。
+```markdown
+# 你的姓名 | 职位
+**电话**: 你的电话号码  
+**邮箱**: 你的邮箱地址  
+**工作经验**: X年
 
-**备选方式**: 也可以直接修改 `index.html` 文件中的 `resumeMarkdown` 变量。
+## 基本信息
+- **姓名**: 你的姓名
+- **年龄**: 你的年龄
+- **求职意向**: 期望职位
 
-### 3. 查看效果
+## 工作经验
+### 公司名称 - 职位名称 (时间段)
+- 负责具体工作内容
+- 参与项目开发
+```
 
-修改 `resume.md` 文件后，刷新浏览器页面即可看到更新后的效果。
+### 3. 本地预览
+直接在浏览器中打开 `index.html` 文件，或使用本地服务器：
 
-### 4. 手动刷新
+```bash
+# 使用Python
+python -m http.server 8000
 
-如果内容没有自动更新，可以点击页面顶部的"🔄 刷新内容"按钮。
+# 使用Node.js
+npx serve .
 
-## 技术实现
+# 使用PHP
+php -S localhost:8000
+```
 
-- **前端**: HTML5 + CSS3 + JavaScript (ES6+)
-- **Markdown解析**: [marked](https://marked.js.org/) - 成熟的Markdown解析库
-- **内容同步**: 自动从resume.md文件加载内容
-- **部署**: 纯静态页面，可部署到任何静态文件服务器
-- **样式**: 响应式设计，支持多种设备
+### 4. 部署上线
+将项目文件上传到你的托管平台即可。
 
-## 简历模板说明
+## 🌍 语言切换
 
-`resume.md` 文件包含了完整的简历模板，包括：
+### 中文版本
+```
+https://yourdomain.com/index.html
+```
 
-- 基本信息
-- 教育背景
-- 工作经验
-- 项目经验
-- 技能专长
-- 证书与荣誉
-- 语言能力
-- 兴趣爱好
-- 自我评价
+### 英文版本
+```
+https://yourdomain.com/index.html?lang=en
+```
 
-## 自定义样式
+## 🛠️ 技术栈
 
-可以通过修改 `index.html` 文件中的 `<style>` 部分来自定义页面样式。
+- **前端框架**: HTML5 + CSS3 + JavaScript (ES6+)
+- **Markdown解析**: marked.js
+- **PDF导出**: html2pdf.js
+- **响应式设计**: CSS Grid + Flexbox
+- **浏览器兼容**: Chrome, Firefox, Safari, Edge
 
-## 优势
+## ⚙️ 配置说明
 
-- 🚀 **无需服务器**: 纯静态页面，可直接在浏览器中打开
-- 🔧 **易于部署**: 可部署到GitHub Pages、Netlify等静态托管服务
-- 📱 **响应式设计**: 支持各种设备尺寸
-- 🎨 **现代化UI**: 美观的渐变背景和卡片式布局
-- ⚡ **快速加载**: 无网络请求，页面加载速度极快
-- 📚 **可靠解析**: 使用成熟的marked库，确保markdown格式正确显示
-- 🔄 **自动同步**: 修改markdown文件后刷新页面即可看到更新
+### 自定义样式
+在 `index.html` 的 `<style>` 标签中修改CSS样式：
 
-## 注意事项
+```css
+/* 修改主题色彩 */
+:root {
+  --primary-color: #3b82f6;
+  --secondary-color: #1e40af;
+  --background-color: #f8fafc;
+}
 
-- 确保 `resume.md` 文件使用UTF-8编码
-- 修改markdown内容后需要刷新浏览器页面
-- 支持所有现代浏览器
-- 需要网络连接来加载marked库（CDN）
-- 如果修改resume.md后内容没有更新，请检查文件路径和刷新页面
+/* 修改字体 */
+body {
+  font-family: 'Your Font', sans-serif;
+}
+```
 
-## 故障排除
+### 添加新功能
+在 `index.html` 的 `<script>` 标签中添加JavaScript代码：
 
-如果页面显示不正确：
+```javascript
+// 添加新的按钮功能
+function customFunction() {
+  // 你的自定义功能
+  console.log('Custom function executed');
+}
+```
 
-1. 检查浏览器控制台是否有错误信息
-2. 确保网络连接正常（marked库需要从CDN加载）
-3. 尝试刷新页面
-4. 检查markdown语法是否正确
-5. 确保resume.md文件存在且可访问
-6. 点击"🔄 刷新内容"按钮手动刷新
+## 📱 响应式断点
 
-## 许可证
+- **桌面端**: > 1000px
+- **平板端**: 768px - 1000px  
+- **手机端**: < 768px
 
-ISC License
+## 🔧 浏览器支持
+
+| 浏览器 | 版本要求 | 支持状态 |
+|--------|----------|----------|
+| Chrome | 60+ | ✅ 完全支持 |
+| Firefox | 55+ | ✅ 完全支持 |
+| Safari | 12+ | ✅ 完全支持 |
+| Edge | 79+ | ✅ 完全支持 |
+
+
+## 📄 许可证
+
+本项目采用 MIT 许可证 - 查看 [LICENSE](LICENSE) 文件了解详情。
+
+## 🙏 致谢
+
+- [marked.js](https://marked.js.org/) - Markdown解析器
+- [html2pdf.js](https://github.com/eKoopmans/html2pdf.js) - PDF导出库
+---
+
+⭐ 如果这个项目对你有帮助，请给它一个星标！
