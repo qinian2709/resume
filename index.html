@@ -117,60 +117,21 @@
             font-weight: 600;
         }
         
-        /* 基本信息模块 - 使用卡片样式 */
-        .markdown-content h2:first-of-type + ul {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 16px;
-            margin: 20px 0;
-        }
-        
-        .markdown-content h2:first-of-type + ul li {
-            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
-            padding: 18px;
-            border-radius: 8px;
-            border-left: 3px solid #3b82f6;
-            margin-bottom: 0;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-            transition: all 0.2s ease;
-            list-style: none !important;
-        }
-        
-        .markdown-content h2:first-of-type + ul li:hover {
-            background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
-            transform: translateY(-1px);
-        }
-        
-        .markdown-content h2:first-of-type + ul li::before {
-            display: none !important;
-            content: none !important;
-        }
-        
-        .markdown-content h2:first-of-type + ul li strong {
-            display: block;
-            margin-bottom: 5px;
-            color: #1e40af;
-        }
-        
-        /* 所有其他模块 - 使用正常列表样式 */
-        .markdown-content ul:not(.markdown-content h2:first-of-type + ul) {
+        /* 统一列表样式 */
+        .markdown-content ul {
             list-style: none;
             padding-left: 0;
             margin: 15px 0;
         }
         
-        .markdown-content ul:not(.markdown-content h2:first-of-type + ul) li {
+        .markdown-content li {
             margin-bottom: 8px;
             position: relative;
             padding-left: 20px;
             line-height: 1.6;
-            background: transparent !important;
-            border: none !important;
-            box-shadow: none !important;
-            padding: 0 0 0 20px !important;
         }
         
-        .markdown-content ul:not(.markdown-content h2:first-of-type + ul) li::before {
+        .markdown-content li::before {
             content: "•";
             color: #3b82f6;
             font-weight: bold;
@@ -229,9 +190,7 @@
                 max-width: 95%;
             }
             
-            .markdown-content h2:first-of-type + ul {
-                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            }
+
         }
         
         @media (max-width: 768px) {
@@ -267,14 +226,7 @@
                 font-size: 1.3em;
             }
             
-            .markdown-content h2:first-of-type + ul {
-                grid-template-columns: 1fr;
-                gap: 12px;
-            }
-            
-            .markdown-content h2:first-of-type + ul li {
-                padding: 16px;
-            }
+
         }
         
         @media (max-width: 480px) {
@@ -309,14 +261,7 @@
                 font-size: 1.2em;
             }
             
-            .markdown-content h2:first-of-type + ul {
-                grid-template-columns: 1fr;
-                gap: 10px;
-            }
-            
-            .markdown-content h2:first-of-type + ul li {
-                padding: 14px;
-            }
+
         }
         
         /* 加载状态 */
@@ -404,7 +349,6 @@
         marked.setOptions({
             breaks: true,  // 支持换行
             gfm: true,     // 支持GitHub风格的Markdown
-            sanitize: false // 允许HTML标签
         });
 
         // 从外部markdown文件加载内容
@@ -414,8 +358,19 @@
                 
                 if (response.ok) {
                     const content = await response.text();
-                    renderResume(content);
+                    console.log('成功加载resume.md，内容长度:', content.length);
+                    console.log('内容预览:', content.substring(0, 300) + '...');
+                    
+                    // 检查内容完整性
+                    if (content.includes('赵乐') && content.includes('前端开发工程师')) {
+                        console.log('✅ 内容完整性检查通过');
+                        renderResume(content);
+                    } else {
+                        console.error('❌ 内容完整性检查失败');
+                        showContentError();
+                    }
                 } else {
+                    console.warn('无法加载resume.md文件，状态码:', response.status);
                     showResumeNotFound();
                 }
             } catch (error) {
@@ -445,18 +400,58 @@
             `;
         }
 
+        // 显示内容错误
+        function showContentError() {
+            document.getElementById('resume-content').innerHTML = `
+                <div style="text-align: center; padding: 60px 20px; color: #ef4444;">
+                    <svg style="width: 64px; height: 64px; margin: 0 auto 20px; color: #ef4444;" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                    </svg>
+                    <h2 style="margin-bottom: 16px; color: #dc2626;">内容加载异常</h2>
+                    <p style="margin-bottom: 8px; line-height: 1.6;">resume.md文件内容不完整或格式异常</p>
+                    <p style="margin-bottom: 24px; line-height: 1.6; color: #9ca3af;">请检查文件内容或重新加载</p>
+                    <button onclick="loadMarkdownFromFile()" style="
+                        background: #3b82f6; color: white; border: none; padding: 12px 24px; 
+                        border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 500;
+                        transition: background-color 0.2s;
+                    " onmouseover="this.style.background='#2563eb'" onmouseout="this.style.background='#3b82f6'">
+                        重新加载
+                    </button>
+                </div>
+            `;
+        }
+
         // 渲染简历内容
         function renderResume(markdownContent) {
             try {
+                console.log('开始渲染简历内容...');
+                console.log('Markdown内容长度:', markdownContent.length);
+                console.log('Markdown内容预览:', markdownContent.substring(0, 500) + '...');
+                
                 const html = marked.parse(markdownContent);
-                document.getElementById('resume-content').innerHTML = html;
-                console.log('简历内容已成功渲染到页面');
+                console.log('HTML解析结果长度:', html.length);
+                console.log('HTML解析结果预览:', html.substring(0, 500) + '...');
+                
+                // 检查HTML内容是否包含关键信息
+                if (html.includes('赵乐') && html.includes('前端开发工程师')) {
+                    console.log('✅ HTML内容检查通过');
+                    document.getElementById('resume-content').innerHTML = html;
+                    console.log('简历内容已成功渲染到页面');
+                    
+                    // 验证渲染后的内容
+                    const renderedContent = document.getElementById('resume-content');
+                } else {
+                    console.error('❌ HTML内容检查失败');
+                    throw new Error('Markdown解析结果不完整');
+                }
+                
             } catch (error) {
                 console.error('解析markdown时出错:', error);
                 document.getElementById('resume-content').innerHTML = `
                     <div style="text-align: center; padding: 40px; color: #ef4444;">
-                        <h2>加载错误</h2>
+                        <h2>渲染错误</h2>
                         <p>解析简历内容时出错: ${error.message}</p>
+                        <p>请检查控制台获取更多信息。</p>
                         <button onclick="loadMarkdownFromFile()" style="
                             background: #3b82f6; color: white; border: none; padding: 10px 20px; 
                             border-radius: 6px; cursor: pointer; margin-top: 20px;
@@ -475,22 +470,40 @@
         // 导出PDF
         function exportToPDF() {
             const element = document.getElementById('resume-content');
-            const opt = {
-                margin: 1,
-                filename: '个人简历.pdf',
-                image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { scale: 2 },
-                jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
-            };
+            
+            // 检查是否有内容
+            if (!element.innerHTML || element.innerHTML.trim() === '') {
+                alert('请等待内容加载完成后再导出PDF');
+                return;
+            }
+            
+            // 检查内容是否包含实际简历内容
+            const textContent = element.textContent || element.innerText || '';
+            if (textContent.trim().length < 50) {
+                alert('简历内容为空或过少，无法导出PDF');
+                return;
+            }
+            try {
+                // 使用最基本的配置，确保内容完整
+                const opt = {
+                    margin: 0.5,
+                    filename: '个人简历.pdf',
+                    image: { type: 'jpeg', quality: 0.98 },
+                    html2canvas: { scale: 2 },
+                    jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+                };
 
-            html2pdf().set(opt).from(element).save();
+                html2pdf().set(opt).from(element).save();
+                console.log('PDF导出成功');
+                
+            } catch (error) {
+                console.error('PDF导出出错:', error);
+                alert('PDF导出失败: ' + error.message);
+            }
         }
-
+        
         // 页面加载完成后执行
-        document.addEventListener('DOMContentLoaded', function() {
-            // 尝试从外部文件加载内容
-            loadMarkdownFromFile();
-        });
+        document.addEventListener('DOMContentLoaded', loadMarkdownFromFile);
     </script>
 </body>
 </html>
