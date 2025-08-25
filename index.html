@@ -28,25 +28,25 @@
       color: #1e293b;
       background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
       min-height: 100vh;
-      padding: 16px;
+      padding: 12px;
     }
 
     .container {
       max-width: 1000px;
       margin: 0 auto;
       background: white;
-      border-radius: 12px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      border-radius: 8px;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
       overflow: hidden;
       position: relative;
     }
 
     .action-buttons {
       position: absolute;
-      top: 20px;
-      right: 20px;
+      top: 15px;
+      right: 15px;
       display: flex;
-      gap: 12px;
+      gap: 8px;
       z-index: 10;
     }
 
@@ -54,14 +54,14 @@
       background: rgba(59, 130, 246, 0.1);
       border: 1px solid rgba(59, 130, 246, 0.2);
       color: #3b82f6;
-      padding: 8px 12px;
-      border-radius: 8px;
+      padding: 6px 10px;
+      border-radius: 6px;
       cursor: pointer;
-      font-size: 14px;
+      font-size: 13px;
       transition: all 0.2s ease;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
       backdrop-filter: blur(10px);
     }
 
@@ -82,25 +82,25 @@
     }
 
     .content {
-      padding: 45px 35px;
+      padding: 30px 25px;
     }
 
     /* Markdown样式优化 */
     .markdown-content h1 {
-      font-size: 1.8em;
+      font-size: 1.4em;
       color: #0f172a;
-      margin-bottom: 20px;
+      margin-bottom: 12px;
       font-weight: 600;
     }
 
     .markdown-content h2 {
-      font-size: 1.4em;
+      font-size: 1.15em;
       color: #1e40af;
-      margin-top: 35px;
-      margin-bottom: 20px;
+      margin-top: 18px;
+      margin-bottom: 12px;
       font-weight: 600;
       position: relative;
-      padding-bottom: 8px;
+      padding-bottom: 4px;
     }
 
     .markdown-content h2::after {
@@ -108,17 +108,17 @@
       position: absolute;
       bottom: 0;
       left: 0;
-      width: 40px;
-      height: 2px;
+      width: 30px;
+      height: 1.5px;
       background: #3b82f6;
       border-radius: 1px;
     }
 
     .markdown-content h3 {
-      font-size: 1.1em;
+      font-size: 1em;
       color: #334155;
-      margin-top: 25px;
-      margin-bottom: 15px;
+      margin-top: 15px;
+      margin-bottom: 10px;
       font-weight: 600;
     }
 
@@ -126,14 +126,14 @@
     .markdown-content ul {
       list-style: none;
       padding-left: 0;
-      margin: 15px 0;
+      margin: 12px 0;
     }
 
     .markdown-content li {
-      margin-bottom: 8px;
+      margin-bottom: 6px;
       position: relative;
-      padding-left: 20px;
-      line-height: 1.6;
+      padding-left: 18px;
+      line-height: 1.5;
     }
 
     .markdown-content li::before {
@@ -149,18 +149,18 @@
     .markdown-content ul ul {
       list-style: none;
       padding-left: 0;
-      margin: 8px 0;
+      margin: 6px 0;
     }
 
     .markdown-content ul ul li {
-      margin-bottom: 6px;
+      margin-bottom: 5px;
       position: relative;
-      padding-left: 20px;
-      line-height: 1.5;
+      padding-left: 18px;
+      line-height: 1.4;
       background: transparent !important;
       border: none !important;
       box-shadow: none !important;
-      padding: 0 0 0 20px !important;
+      padding: 0 0 0 18px !important;
     }
 
     .markdown-content ul ul li::before {
@@ -178,15 +178,15 @@
     }
 
     .markdown-content p {
-      margin-bottom: 15px;
-      line-height: 1.7;
+      margin-bottom: 12px;
+      line-height: 1.6;
       color: #334155;
     }
 
     .markdown-content hr {
       border: none;
       border-top: 1px solid #cbd5e1;
-      margin: 30px 0;
+      margin: 20px 0;
     }
 
     /* 响应式设计优化 */
@@ -200,56 +200,17 @@
 
     @media (max-width: 768px) {
       body {
-        padding: 12px;
-      }
-
-      .container {
-        border-radius: 8px;
-        max-width: 100%;
-      }
-
-      .action-buttons {
-        top: 15px;
-        right: 15px;
-        gap: 8px;
-      }
-
-      .action-btn {
-        padding: 6px 10px;
-        font-size: 13px;
-      }
-
-      .content {
-        padding: 35px 25px;
-      }
-
-      .markdown-content h1 {
-        font-size: 1.6em;
-      }
-
-      .markdown-content h2 {
-        font-size: 1.3em;
-      }
-
-
-    }
-
-    @media (max-width: 480px) {
-      body {
-        padding: 8px;
+        padding: 10px;
       }
 
       .container {
         border-radius: 6px;
-      }
-
-      .content {
-        padding: 25px 20px;
+        max-width: 100%;
       }
 
       .action-buttons {
-        top: 10px;
-        right: 10px;
+        top: 12px;
+        right: 12px;
         gap: 6px;
       }
 
@@ -258,12 +219,51 @@
         font-size: 12px;
       }
 
+      .content {
+        padding: 25px 20px;
+      }
+
       .markdown-content h1 {
-        font-size: 1.5em;
+        font-size: 1.4em;
       }
 
       .markdown-content h2 {
+        font-size: 1.15em;
+      }
+
+
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 6px;
+      }
+
+      .container {
+        border-radius: 4px;
+      }
+
+      .content {
+        padding: 20px 15px;
+      }
+
+      .action-buttons {
+        top: 8px;
+        right: 8px;
+        gap: 4px;
+      }
+
+      .action-btn {
+        padding: 4px 6px;
+        font-size: 11px;
+      }
+
+      .markdown-content h1 {
         font-size: 1.2em;
+      }
+
+      .markdown-content h2 {
+        font-size: 1em;
       }
 
 
@@ -480,7 +480,7 @@
       try {
         // 使用最基本的配置，确保内容完整
         const opt = {
-          margin: 0.5,
+          margin: 0.4,
           filename: '个人简历.pdf',
           image: { type: 'jpeg', quality: 0.98 },
           html2canvas: { scale: 2 },
