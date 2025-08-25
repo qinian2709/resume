@@ -456,11 +456,6 @@
 
     // 刷新内容
     function refreshContent() {
-      // 设置刷新按钮为加载状态
-      setButtonLoading('刷新', true);
-      // 禁用下载按钮
-      setButtonState('下载', false);
-      
       document.getElementById('resume-content').innerHTML = '';
       loadMarkdownFromFile();
     }
@@ -483,11 +478,6 @@
       }
       
       try {
-        // 设置下载按钮为加载状态
-        setButtonLoading('下载', true);
-        // 禁用刷新按钮
-        setButtonState('刷新', false);
-        
         // 使用最基本的配置，确保内容完整
         const opt = {
           margin: 0.5,
@@ -500,24 +490,15 @@
         html2pdf().set(opt).from(element).save()
           .then(() => {
             console.log('PDF导出成功');
-            // 恢复按钮状态
-            setButtonLoading('下载', false);
-            setButtonState('刷新', true);
           })
           .catch((error) => {
             console.error('PDF导出失败:', error);
             alert('PDF导出失败: ' + error.message);
-            // 恢复按钮状态
-            setButtonLoading('下载', false);
-            setButtonState('刷新', true);
           });
  
       } catch (error) {
         console.error('PDF导出出错:', error);
         alert('PDF导出失败: ' + error.message);
-        // 恢复按钮状态
-        setButtonLoading('下载', false);
-        setButtonState('刷新', true);
       }
     }
 

@@ -1,5 +1,5 @@
 # 赵乐 | 前端开发工程师
-**电话**: 13511028364 ｜ **工作经验**: 6年  |  **邮箱**: zhaole.work@gmail.com 
+**电话**: 13511028364 ｜ **工作经验**: 6年  ｜  **邮箱**: zhaole.work@gmail.com 
 **GitHub**:  [https://github.com/lezzhao](https://github.com/lezzhao) 
 
 ---
