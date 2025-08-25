@@ -1,4 +1,4 @@
-# 姓名 | 前端开发工程师
+# qiu| 前端开发工程师
 **电话**: 134******* | **邮箱**: 199393@qq.com | **工作经验**: 6年 
 **GitHub**: [https://github.com](https://github.com/lezzhao) 
 
